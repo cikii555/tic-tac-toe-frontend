@@ -1,23 +1,26 @@
-import React, { Component } from 'react';
-import FormControl from '@mui/material/FormControl';
+import React, { useState } from 'react';
 import { TextField } from '@mui/material';
 import  Button  from '@mui/material/Button';
 import {Link} from 'react-router-dom'
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid'
 import { registration } from '../services/userService'; 
-class RegistrationForm extends Component {
-    state = { account:{
+function RegistrationForm () {
+    /*state = { account:{
         username:'',
         password: '',
         name:''
     } ,
-errors:{}} 
-    handleSubmit = async (e)=>{
+errors:{}} */
+const [data, setData] = useState({ username: '', password: '', name:'',errors:{} });
+   const handleSubmit = async (e)=>{
         e.preventDefault()
     try{
       const response =  await  registration(this.state.account)
       const token  = response.headers.get('X-Auth-Token')
         localStorage.setItem('token', token)
-        //this.props.history.push()
+       // this.props.history.push('game')
 
       
     }
@@ -30,13 +33,22 @@ errors:{}}
     }
 
     }
-    handleChange = e =>{
-        const account  = {...this.state.account}
-        account[e.currentTarget.name] = e.currentTarget.value
-        this.setState({account})
+    const handleChange = e =>{
+        const newData = { ...data };
+        newData[e.currentTarget.name] = e.currentTarget.value;
+        setData(newData);
     }
-    render() { 
-        return <div>
+   
+        return (
+        <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center', 
+          minHeight: '100vh',
+        }}
+      >
                    <h2>Register Form</h2>
             <form onSubmit={this.handleSubmit} >
             <TextField
@@ -45,8 +57,8 @@ errors:{}}
                     color='secondary'
                     label="Name"
                     name = "name"
-                    onChange={this.handleChange}
-                    value={this.state.account.name}
+                    onChange={handleChange}
+                    value={data.name}
                     fullWidth
                     required
                     sx={{mb: 4}}
@@ -57,8 +69,8 @@ errors:{}}
                     color='secondary'
                     label="Username"
                     name = "username"
-                    onChange={this.handleChange}
-                    value={this.state.account.username}
+                    onChange={handleChange}
+                    value={data.username}
                     fullWidth
                     required
                     sx={{mb: 4}}
@@ -70,19 +82,23 @@ errors:{}}
                     color='secondary'
                     label="Password"
                     name = "password"
-                    onChange={this.handleChange}
-                    value={this.state.account.password}
+                    onChange={handleChange}
+                    value={data.password}
                     required
                     fullWidth
                     sx={{mb: 4}}
                 />
                
-                <Button variant="outlined" color="secondary" type="submit">Register</Button>
+                <Button variant="contained"
+              color="secondary"
+              fullWidth
+             
+              style={{ marginTop: '1rem' }} type="submit">Register</Button>
             </form>
-            <small>Already have an account? <Link to="/login">Login Here</Link></small>
+            <small>Already have an account? <Link to="/">Login Here</Link></small>
             
-        </div>;
-    }
+        </Box>
+    )
 }
  
 export default RegistrationForm;
