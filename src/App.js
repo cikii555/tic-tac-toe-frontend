@@ -7,6 +7,9 @@ import LoginForm from './components/loginForm';
 import { ToastContainer } from 'react-toastify';
 import jwtDecode from 'jwt-decode';
 import Logout from './components/logout';
+import Game from './components/game';
+import Board from './components/board'
+import Wait from './components/wait'
 class App extends Component {
   state={};
   componentDidMount() {
@@ -23,9 +26,12 @@ class App extends Component {
       <ToastContainer/>
     <Router>
       <Routes>
-        <Route path="/" element={<RegistrationForm />} />
-        <Route path="/login" element = {<LoginForm/>}/>
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/registration" element = {<RegistrationForm/>}/>
         <Route path="/logout" element = {<Logout/>}/>
+        <Route path="/game" element = {<Game/>}/>
+        <Route path = "/board" element = {<Board/>}/> 
+        <Route path = "/wait" element = {<Wait/>} />
       </Routes>
     </Router>
 
